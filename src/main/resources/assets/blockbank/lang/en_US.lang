@@ -1,0 +1,10 @@
+item.gold_coin.name=Gold Coin
+item.iron_coin.name=Iron Coin
+item.unfired_coin_mold.name=Unfired Coin Mold
+item.coin_mold.name=Coin Mold
+
+itemGroup.tabBlockBank=Block Bank
+
+tile.counterfit_detector.name=Counterfit Detector
+
+container.tile_entity_counterfit_detector=Counterfit Detector

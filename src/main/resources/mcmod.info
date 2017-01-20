@@ -1,0 +1,11 @@
+[
+{
+  "modid": "blockbank",
+  "name": "Block Bank",
+  "description": "Example placeholder mod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "authorList": ["Denyol"],
+  "dependencies": []
+}
+]
