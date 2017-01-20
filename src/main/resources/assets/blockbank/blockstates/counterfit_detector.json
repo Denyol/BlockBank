@@ -1,0 +1,25 @@
+{
+    "forge_marker": 1,
+    "defaults":
+    {
+        "textures":
+        {
+            "all": "blockbank:blocks/counterfit_detector"
+        }
+    },
+    "variants":
+    {
+        "normal":
+        {
+            "model": "blockbank:counterfit_detector"
+        },
+        "inventory":
+        {
+            "model": "blockbank:counterfit_detector"
+        },
+        "facing=north": {"model": "blockbank:counterfit_detector"},
+        "facing=east": {"model": "blockbank:counterfit_detector", "y": 90},
+        "facing=south": {"model": "blockbank:counterfit_detector", "y": 180},
+        "facing=west": {"model": "blockbank:counterfit_detector", "y": 270}
+    }
+}
