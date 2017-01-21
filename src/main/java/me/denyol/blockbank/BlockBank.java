@@ -1,5 +1,6 @@
 package me.denyol.blockbank;
 
+import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
 import org.apache.logging.log4j.Logger;
 
 import me.denyol.blockbank.blocks.ModBlocks;
@@ -9,7 +10,6 @@ import me.denyol.blockbank.crafting.ModFurnaceCrafting;
 import me.denyol.blockbank.items.ModItems;
 import me.denyol.blockbank.network.ModGuiHandler;
 import me.denyol.blockbank.proxy.IBlockBankProxy;
-import me.denyol.blockbank.tileentity.TileEntityCounterfitDetector;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -57,7 +57,7 @@ public class BlockBank
 		ModFurnaceCrafting.initRegister();
 		ModCrafting.initRegister();
 		
-		GameRegistry.registerTileEntity(TileEntityCounterfitDetector.class, MOD_ID + "TileEntityCounterfitDetector");
+		GameRegistry.registerTileEntity(TileEntityCounterfeitDetector.class, MOD_ID + "TileEntityCounterfeitDetector");
 		proxy.registerTESRs();
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(BlockBank.instance, new ModGuiHandler());

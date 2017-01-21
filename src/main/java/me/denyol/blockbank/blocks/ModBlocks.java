@@ -13,16 +13,16 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ModBlocks
 {
 	
-	public static Block counterfitDetector;
+	public static Block counterfeitDetector;
 	
 	public static void loadBlocks()
 	{
-		counterfitDetector = new BlockCounterfitDetector(Blocks.COUNTERFIT_DETECTOR);
+		counterfeitDetector = new BlockCounterfeitDetector(Blocks.COUNTERFEIT_DETECTOR);
 	}
 	
 	public static void registerBlocks()
 	{
-		registerBlock(counterfitDetector);
+		registerBlock(counterfeitDetector);
 	}
 	
 	private static void registerBlock(Block block)
@@ -35,7 +35,7 @@ public class ModBlocks
 	
 	public static void registerForRendering()
 	{
-		registerRender(counterfitDetector);
+		registerRender(counterfeitDetector);
 	}
 	
 	private static void registerRender(Block block)
@@ -43,9 +43,9 @@ public class ModBlocks
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
 	}
 	
-	public static enum Blocks
+	public enum Blocks
 	{
-		COUNTERFIT_DETECTOR("counterfit_detector", "counterfit_detector", Material.IRON);
+		COUNTERFEIT_DETECTOR("counterfeit_detector", "counterfeit_detector", Material.IRON);
 		
 		private String unlocalizedName;
 		private String registryName; // should be unique

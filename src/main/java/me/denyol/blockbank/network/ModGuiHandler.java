@@ -1,8 +1,8 @@
 package me.denyol.blockbank.network;
 
-import me.denyol.blockbank.gui.ContainerTileEntityCounterfitDetector;
-import me.denyol.blockbank.gui.GuiTileEntityCounterfitDetector;
-import me.denyol.blockbank.tileentity.TileEntityCounterfitDetector;
+import me.denyol.blockbank.gui.ContainerTileEntityCounterfeitDetector;
+import me.denyol.blockbank.gui.GuiTileEntityCounterfeitDetector;
+import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -16,8 +16,8 @@ public class ModGuiHandler implements IGuiHandler
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
-		if(ID == GUIS.COUNTERFIT_DETECTOR.ordinal() && te instanceof TileEntityCounterfitDetector)
-			return new ContainerTileEntityCounterfitDetector(player.inventory, (TileEntityCounterfitDetector) te);
+		if(ID == GUIS.COUNTERFEIT_DETECTOR.ordinal() && te instanceof TileEntityCounterfeitDetector)
+			return new ContainerTileEntityCounterfeitDetector(player.inventory, (TileEntityCounterfeitDetector) te);
 		
 		return null;
 	}
@@ -26,15 +26,15 @@ public class ModGuiHandler implements IGuiHandler
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
-		if(ID == GUIS.COUNTERFIT_DETECTOR.ordinal() && te instanceof TileEntityCounterfitDetector)
-			return new GuiTileEntityCounterfitDetector(player.inventory, (TileEntityCounterfitDetector) te);
+		if(ID == GUIS.COUNTERFEIT_DETECTOR.ordinal() && te instanceof TileEntityCounterfeitDetector)
+			return new GuiTileEntityCounterfeitDetector(player.inventory, (TileEntityCounterfeitDetector) te);
 		
 		return null;
 	}
 	
 	public enum GUIS
 	{
-		COUNTERFIT_DETECTOR
+		COUNTERFEIT_DETECTOR
 	}
 
 }

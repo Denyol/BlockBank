@@ -11,13 +11,13 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 
-public class TileEntityCounterfitDetector extends TileEntityBase implements IInventory
+public class TileEntityCounterfeitDetector extends TileEntityBase implements IInventory
 {
 
 	private ItemStack inspectedCoin;
 	private String customName; // for renaming the inventory in an anvil
 
-	public TileEntityCounterfitDetector()
+	public TileEntityCounterfeitDetector()
 	{
 		super();
 	}
@@ -107,7 +107,7 @@ public class TileEntityCounterfitDetector extends TileEntityBase implements IInv
 	@Override
 	public String getName()
 	{
-		return this.hasCustomName() ? this.customName : "container.tile_entity_counterfit_detector";
+		return this.hasCustomName() ? this.customName : "container.tile_entity_counterfeit_detector";
 	}
 
 	@Override
@@ -225,12 +225,10 @@ public class TileEntityCounterfitDetector extends TileEntityBase implements IInv
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack)
 	{
-		if (stack.getItem() == ModItems.goldCoin 
+		return stack.getItem() == ModItems.goldCoin
 				|| stack.getItem() == ModItems.ironCoin
-				|| stack.getItem() == ModItems.emeraldCoin)
-			return true;
+				|| stack.getItem() == ModItems.emeraldCoin;
 
-		return false;
 	}
 
 	@Override

@@ -1,24 +1,24 @@
 package me.denyol.blockbank.gui;
 
-import me.denyol.blockbank.gui.slots.SlotCounterfitDetector;
+import me.denyol.blockbank.gui.slots.SlotCounterfeitDetector;
 import me.denyol.blockbank.items.ModItems;
-import me.denyol.blockbank.tileentity.TileEntityCounterfitDetector;
+import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerTileEntityCounterfitDetector extends Container
+public class ContainerTileEntityCounterfeitDetector extends Container
 {
 
-	private TileEntityCounterfitDetector tileEntity;
+	private TileEntityCounterfeitDetector tileEntity;
 
-	public ContainerTileEntityCounterfitDetector(IInventory playerInv, TileEntityCounterfitDetector te)
+	public ContainerTileEntityCounterfeitDetector(IInventory playerInv, TileEntityCounterfeitDetector te)
 	{
 		this.tileEntity = te;
 
-		addSlotToContainer(new SlotCounterfitDetector(tileEntity, 0, 80, 20, tileEntity));
+		addSlotToContainer(new SlotCounterfeitDetector(tileEntity, 0, 80, 20, tileEntity));
 		
 		addPlayerInventory(playerInv);
 	}
@@ -75,7 +75,7 @@ public class ContainerTileEntityCounterfitDetector extends Container
 	        	return null; // it failed
 
 	        if (current.stackSize == 0)
-	            slot.putStack((ItemStack) null);
+	            slot.putStack(null);
 	        else
 	            slot.onSlotChanged();
 

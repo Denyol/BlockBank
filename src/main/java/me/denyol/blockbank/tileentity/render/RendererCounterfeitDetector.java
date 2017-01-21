@@ -1,21 +1,21 @@
 package me.denyol.blockbank.tileentity.render;
 
-import me.denyol.blockbank.tileentity.TileEntityCounterfitDetector;
+import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 
-public class RendererCounterfitDetector extends TileEntitySpecialRenderer<TileEntityCounterfitDetector>
+public class RendererCounterfeitDetector extends TileEntitySpecialRenderer<TileEntityCounterfeitDetector>
 {
 
-	public RendererCounterfitDetector()
+	public RendererCounterfeitDetector()
 	{
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntityCounterfitDetector te, double x, double y, double z, float partialTicks, int destroyStage)
+	public void renderTileEntityAt(TileEntityCounterfeitDetector te, double x, double y, double z, float partialTicks, int destroyStage)
 	{
 		ItemStack coin = te.getStackInSlot(0);
 

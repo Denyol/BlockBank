@@ -2,7 +2,7 @@
 {
   "modid": "blockbank",
   "name": "Block Bank",
-  "description": "Example placeholder mod.",
+  "description": "Bank mod featuring coin mints, counterfeit detection and money.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "authorList": ["Denyol"],

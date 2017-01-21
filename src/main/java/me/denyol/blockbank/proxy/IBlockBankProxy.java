@@ -2,7 +2,7 @@ package me.denyol.blockbank.proxy;
 
 public interface IBlockBankProxy
 {
-	public void registerRenders();
+	void registerRenders();
 	
-	public void registerTESRs();
+	void registerTESRs();
 }

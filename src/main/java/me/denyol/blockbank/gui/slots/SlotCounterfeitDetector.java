@@ -1,16 +1,16 @@
 package me.denyol.blockbank.gui.slots;
 
-import me.denyol.blockbank.tileentity.TileEntityCounterfitDetector;
+import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class SlotCounterfitDetector extends Slot
+public class SlotCounterfeitDetector extends Slot
 {
 	
-	private final TileEntityCounterfitDetector tileEntity;
+	private final TileEntityCounterfeitDetector tileEntity;
 
-	public SlotCounterfitDetector(IInventory inventoryIn, int index, int xPosition, int yPosition, TileEntityCounterfitDetector te)
+	public SlotCounterfeitDetector(IInventory inventoryIn, int index, int xPosition, int yPosition, TileEntityCounterfeitDetector te)
 	{
 		super(inventoryIn, index, xPosition, yPosition);
 		tileEntity = te;

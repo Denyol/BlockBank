@@ -40,7 +40,7 @@ public class ModItems
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 	
-	public static enum Items
+	public enum Items
 	{
 		GOLD_COIN("gold_coin", "gold_coin"),
 		IRON_COIN("iron_coin", "iron_coin"),

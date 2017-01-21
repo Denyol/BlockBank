@@ -1,0 +1,25 @@
+{
+    "forge_marker": 1,
+    "defaults":
+    {
+        "textures":
+        {
+            "all": "blockbank:blocks/counterfeit_detector"
+        }
+    },
+    "variants":
+    {
+        "normal":
+        {
+            "model": "blockbank:counterfeit_detector"
+        },
+        "inventory":
+        {
+            "model": "blockbank:counterfeit_detector"
+        },
+        "facing=north": {"model": "blockbank:counterfeit_detector"},
+        "facing=east": {"model": "blockbank:counterfeit_detector", "y": 90},
+        "facing=south": {"model": "blockbank:counterfeit_detector", "y": 180},
+        "facing=west": {"model": "blockbank:counterfeit_detector", "y": 270}
+    }
+}

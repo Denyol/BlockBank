@@ -1,7 +1,7 @@
 package me.denyol.blockbank.gui;
 
 import me.denyol.blockbank.BlockBank;
-import me.denyol.blockbank.tileentity.TileEntityCounterfitDetector;
+import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,15 +10,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiTileEntityCounterfitDetector extends GuiContainer
+public class GuiTileEntityCounterfeitDetector extends GuiContainer
 {
 
-	private TileEntityCounterfitDetector te;
+	private TileEntityCounterfeitDetector te;
 	private final InventoryPlayer player;
 	
-	public GuiTileEntityCounterfitDetector(InventoryPlayer player, TileEntityCounterfitDetector tileEntity)
+	public GuiTileEntityCounterfeitDetector(InventoryPlayer player, TileEntityCounterfeitDetector tileEntity)
 	{
-		super(new ContainerTileEntityCounterfitDetector(player, tileEntity));
+		super(new ContainerTileEntityCounterfeitDetector(player, tileEntity));
 		
 		te = tileEntity;
 		this.player = player;

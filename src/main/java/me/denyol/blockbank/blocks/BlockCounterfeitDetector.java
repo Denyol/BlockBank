@@ -3,7 +3,7 @@ package me.denyol.blockbank.blocks;
 import me.denyol.blockbank.BlockBank;
 import me.denyol.blockbank.blocks.ModBlocks.Blocks;
 import me.denyol.blockbank.network.ModGuiHandler;
-import me.denyol.blockbank.tileentity.TileEntityCounterfitDetector;
+import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
@@ -25,14 +25,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockCounterfitDetector extends BlockBase implements ITileEntityProvider
+public class BlockCounterfeitDetector extends BlockBase implements ITileEntityProvider
 {
 
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0, 1, 14.0/16, 1);
 	
 	public static final PropertyDirection PROPERTY_FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
-	public BlockCounterfitDetector(Blocks block)
+	public BlockCounterfeitDetector(Blocks block)
 	{
 		super(block);
 		
@@ -108,13 +108,13 @@ public class BlockCounterfitDetector extends BlockBase implements ITileEntityPro
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta)
 	{
-		return new TileEntityCounterfitDetector();
+		return new TileEntityCounterfeitDetector();
 	}
 	
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state)
 	{
-		TileEntityCounterfitDetector te = (TileEntityCounterfitDetector) world.getTileEntity(pos);
+		TileEntityCounterfeitDetector te = (TileEntityCounterfeitDetector) world.getTileEntity(pos);
 		InventoryHelper.dropInventoryItems(world, pos, te);
 		super.breakBlock(world, pos, state);
 	}
@@ -123,14 +123,14 @@ public class BlockCounterfitDetector extends BlockBase implements ITileEntityPro
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
 	{
 		if(stack.hasDisplayName()) // sets the inventory's custom display name if the block stack is named
-			((TileEntityCounterfitDetector) worldIn.getTileEntity(pos)).setCustomName(stack.getDisplayName());
+			((TileEntityCounterfeitDetector) worldIn.getTileEntity(pos)).setCustomName(stack.getDisplayName());
 	}
 	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
 	{	
 		if(!worldIn.isRemote)
-			playerIn.openGui(BlockBank.instance, ModGuiHandler.GUIS.COUNTERFIT_DETECTOR.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(BlockBank.instance, ModGuiHandler.GUIS.COUNTERFEIT_DETECTOR.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		
 		return true;
 	}

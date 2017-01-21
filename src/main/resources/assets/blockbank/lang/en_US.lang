@@ -5,6 +5,6 @@ item.coin_mold.name=Coin Mold
 
 itemGroup.tabBlockBank=Block Bank
 
-tile.counterfit_detector.name=Counterfit Detector
+tile.counterfeit_detector.name=Counterfeit Detector
 
-container.tile_entity_counterfit_detector=Counterfit Detector
+container.tile_entity_counterfeit_detector=Counterfeit Detector
