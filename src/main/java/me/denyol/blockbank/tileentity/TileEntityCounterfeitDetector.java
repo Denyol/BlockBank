@@ -3,15 +3,18 @@ package me.denyol.blockbank.tileentity;
 import me.denyol.blockbank.items.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 
-public class TileEntityCounterfeitDetector extends TileEntityBase implements IInventory
+public class TileEntityCounterfeitDetector extends TileEntity implements IInventory
 {
 
 	private ItemStack inspectedCoin;
@@ -79,7 +82,6 @@ public class TileEntityCounterfeitDetector extends TileEntityBase implements IIn
 	{
 		NBTTagCompound tag = packet.getNbtCompound();
         readFromNBT(tag);
-        System.out.println("onDataPacket()");
 	}
 	
 	@Override
@@ -131,48 +133,20 @@ public class TileEntityCounterfeitDetector extends TileEntityBase implements IIn
 	@Override
 	public ItemStack getStackInSlot(int index)
 	{
-		if (index < 0 || index >= this.getSizeInventory())
-			return null;
-
 		return this.inspectedCoin; // we only have one slot, this is it
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int count)
 	{
-		if (this.getStackInSlot(index) != null)
+		ItemStack itemStack = ItemStackHelper.getAndSplit(new ItemStack[]{this.inspectedCoin}, index, count);
+
+		if (itemStack != null)
 		{
-			ItemStack itemStack;
-
-			if (this.getStackInSlot(index).stackSize <= 0) // if the stack is
-			// empty
-			{
-				itemStack = this.getStackInSlot(index); // set itemStack to the
-				// empty stack
-				this.setInventorySlotContents(index, null); // set the item in
-				// the inventory to
-				// null
-				this.markDirty(); // make sure it gets saved with the chunk
-				return itemStack;
-			} else
-			{
-				itemStack = this.getStackInSlot(index).splitStack(count);
-
-				if (this.getStackInSlot(index).stackSize <= 0)
-				{
-					this.setInventorySlotContents(index, null);
-				} else
-				{
-					this.setInventorySlotContents(index, this.getStackInSlot(index));
-				}
-
-				this.markDirty();
-				return itemStack;
-			}
-		} else
-		{
-			return null;
+			this.markDirty();
 		}
+
+		return itemStack;
 	}
 
 	@Override
@@ -186,16 +160,11 @@ public class TileEntityCounterfeitDetector extends TileEntityBase implements IIn
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack)
 	{
-		if (index < 0 || index >= this.getSizeInventory())
-			return;
+		this.inspectedCoin = stack;
 
 		if (stack != null && stack.stackSize > this.getInventoryStackLimit())
 			stack.stackSize = this.getInventoryStackLimit();
 
-		if (stack != null && stack.stackSize == 0)
-			stack = null;
-
-		this.setInspectedCoin(stack);
 		this.markDirty();
 	}
 

@@ -1,0 +1,18 @@
+{
+    "forge_marker": 1,
+    "variants":
+    {
+        "normal":
+        {
+            "model": "blockbank:coin_forge"
+        },
+        "inventory":
+        {
+            "model": "blockbank:coin-forge"
+        },
+        "facing=north": {"model": "blockbank:coin_forge"},
+        "facing=east": {"model": "blockbank:coin_forge", "y": 90},
+        "facing=south": {"model": "blockbank:coin_forge", "y": 180},
+        "facing=west": {"model": "blockbank:coin_forge", "y": 270}
+    }
+}

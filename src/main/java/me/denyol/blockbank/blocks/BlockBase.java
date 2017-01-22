@@ -21,7 +21,7 @@ public class BlockBase extends Block
 		
 		this.canSpawnInBlock = super.canSpawnInBlock();
 	}
-	
+
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{

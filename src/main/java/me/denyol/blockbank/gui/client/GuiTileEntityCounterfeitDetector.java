@@ -1,6 +1,7 @@
-package me.denyol.blockbank.gui;
+package me.denyol.blockbank.gui.client;
 
 import me.denyol.blockbank.BlockBank;
+import me.denyol.blockbank.gui.ContainerTileEntityCounterfeitDetector;
 import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -38,7 +39,7 @@ public class GuiTileEntityCounterfeitDetector extends GuiContainer
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-		mc.renderEngine.bindTexture(new ResourceLocation(BlockBank.MOD_ID, "textures/gui/ItemDetectorContainer.png"));
+		mc.renderEngine.bindTexture(new ResourceLocation(BlockBank.MOD_ID, "textures/gui/CounterfeitDetectorContainer.png"));
 		int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, xSize, ySize);

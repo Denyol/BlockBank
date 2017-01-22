@@ -1,5 +1,6 @@
 package me.denyol.blockbank;
 
+import me.denyol.blockbank.tileentity.TileEntityCoinForge;
 import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
 import org.apache.logging.log4j.Logger;
 
@@ -58,6 +59,7 @@ public class BlockBank
 		ModCrafting.initRegister();
 		
 		GameRegistry.registerTileEntity(TileEntityCounterfeitDetector.class, MOD_ID + "TileEntityCounterfeitDetector");
+		GameRegistry.registerTileEntity(TileEntityCoinForge.class, MOD_ID + "TileEntityCoinForge");
 		proxy.registerTESRs();
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(BlockBank.instance, new ModGuiHandler());

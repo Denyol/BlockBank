@@ -77,9 +77,8 @@ public class BlockCounterfeitDetector extends BlockBase implements ITileEntityPr
 	public int getMetaFromState(IBlockState state)
 	{
 		EnumFacing facing = (EnumFacing) state.getValue(PROPERTY_FACING);
-		
-		int facingbit = facing.getHorizontalIndex();
-		return facingbit;
+
+		return facing.getHorizontalIndex();
 	}
 	
 	@Override
@@ -130,7 +129,7 @@ public class BlockCounterfeitDetector extends BlockBase implements ITileEntityPr
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
 	{	
 		if(!worldIn.isRemote)
-			playerIn.openGui(BlockBank.instance, ModGuiHandler.GUIS.COUNTERFEIT_DETECTOR.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(BlockBank.instance, ModGuiHandler.GUI.COUNTERFEIT_DETECTOR.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		
 		return true;
 	}

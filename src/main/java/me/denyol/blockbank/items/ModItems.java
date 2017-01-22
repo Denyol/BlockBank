@@ -10,12 +10,9 @@ public class ModItems
 {
 	
 	public static Item goldCoin;
-	public static Item blankGoldCoin; //TODO add
-	
-	public static Item blankIronCoin; //TODO add
+
 	public static Item ironCoin; //TODO add
-	
-	public static Item blankEmeraldCoin; //TODO add
+
 	public static Item emeraldCoin; //TODO add
 	
 	public static Item unfiredCoinMold;

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "blockbank:blocks/coin_forge",
+    "up": "blockbank:blocks/coin_forge",
+    "north": "blockbank:blocks/coin_forge",
+    "east": "blockbank:blocks/coin_forge",
+    "south": "blockbank:blocks/coin_forge",
+    "west": "blockbank:blocks/coin_forge",
+    "particle": "blockbank:blocks/coin_forge"
+  }
+}

@@ -14,15 +14,18 @@ public class ModBlocks
 {
 	
 	public static Block counterfeitDetector;
+	public static Block coinForge;
 	
 	public static void loadBlocks()
 	{
 		counterfeitDetector = new BlockCounterfeitDetector(Blocks.COUNTERFEIT_DETECTOR);
+		coinForge = new BlockCoinForge(Blocks.COIN_FORGE);
 	}
 	
 	public static void registerBlocks()
 	{
 		registerBlock(counterfeitDetector);
+		registerBlock(coinForge);
 	}
 	
 	private static void registerBlock(Block block)
@@ -36,6 +39,7 @@ public class ModBlocks
 	public static void registerForRendering()
 	{
 		registerRender(counterfeitDetector);
+		registerRender(coinForge);
 	}
 	
 	private static void registerRender(Block block)
@@ -45,7 +49,8 @@ public class ModBlocks
 	
 	public enum Blocks
 	{
-		COUNTERFEIT_DETECTOR("counterfeit_detector", "counterfeit_detector", Material.IRON);
+		COUNTERFEIT_DETECTOR("counterfeit_detector", "counterfeit_detector", Material.IRON),
+		COIN_FORGE("coin_forge", "coin_forge", Material.IRON);
 		
 		private String unlocalizedName;
 		private String registryName; // should be unique
