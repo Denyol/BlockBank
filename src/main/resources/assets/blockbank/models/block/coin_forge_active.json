@@ -3,7 +3,7 @@
   "textures": {
     "down": "blockbank:blocks/coin_forge_sides",
     "up": "blockbank:blocks/coin_forge_sides",
-    "north": "blockbank:blocks/coin_forge_front",
+    "north": "blockbank:blocks/coin_forge_front_active",
     "east": "blockbank:blocks/coin_forge_sides",
     "south": "blockbank:blocks/coin_forge_sides",
     "west": "blockbank:blocks/coin_forge_sides",

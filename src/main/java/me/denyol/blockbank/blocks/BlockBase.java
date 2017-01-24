@@ -2,9 +2,12 @@ package me.denyol.blockbank.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.client.model.ModelLoader;
 
 public class BlockBase extends Block
 {
@@ -37,6 +40,11 @@ public class BlockBase extends Block
 	public boolean canSpawnInBlock()
 	{
 		return this.canSpawnInBlock;
+	}
+
+	public void registerForRendering()
+	{
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(this.getRegistryName(), "inventory"));
 	}
 
 }

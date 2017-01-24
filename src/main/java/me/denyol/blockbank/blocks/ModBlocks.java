@@ -44,7 +44,8 @@ public class ModBlocks
 	
 	private static void registerRender(Block block)
 	{
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
+		if(block instanceof BlockBase)
+			((BlockBase) block).registerForRendering();
 	}
 	
 	public enum Blocks

@@ -57,14 +57,10 @@ public class GuiCoinForge extends GuiContainer
 
 	private int getBurnLeftScaled(int pixels)
 	{
-		int currentBurnTime = this.te.getField(1);
+		int currentItemBurnTime = this.te.getField(1);
+		int forgeBurnTime = this.te.getField(0);
 
-		if (currentBurnTime == 0)
-		{
-			currentBurnTime = 300;
-		}
-
-		return this.te.getField(0) * pixels / currentBurnTime;
+		return forgeBurnTime != 0 && currentItemBurnTime != 0 ? forgeBurnTime * pixels / currentItemBurnTime : 0;
 	}
 
 	private int getMeltProgressScaled(int pixels)

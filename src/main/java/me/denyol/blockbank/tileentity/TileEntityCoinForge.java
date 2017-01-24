@@ -1,21 +1,23 @@
 package me.denyol.blockbank.tileentity;
 
+import me.denyol.blockbank.blocks.BlockCoinForge;
 import me.denyol.blockbank.items.ModItems;
 import me.denyol.blockbank.items.crafting.CoinForgeRecipes;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
@@ -30,8 +32,8 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 	private static final int[] SLOTS_SIDES = new int[] {1, 2};
 
 	private String customName;
-
-	private ItemStack[] coinForgeStacks = new ItemStack[4]; // 0: input, 1: moldslot 2: fuel, 3: output
+	/** 0: input, 1: moldslot 2: fuel, 3: output */
+	private ItemStack[] coinForgeStacks = new ItemStack[4];
 	/** The number of ticks that the forge will keep burning */
 	private int forgeBurnTime; // 0
 	/** The number of ticks that a fresh copy of the currently-burning fuel item would keep the forge burning for */
@@ -42,7 +44,7 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 	@Override
 	public void update()
 	{
-		//boolean hasBeenForging = forgingSomething(); //used for changing models
+		boolean hasBeenForging = forgingSomething(); //used for changing models
 		boolean changedForgingState = false;
 
 		if(forgingSomething())
@@ -92,6 +94,22 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 					this.cookTime = 0;
 
 			}
+
+			if(hasBeenForging != forgingSomething())
+			{
+				if(forgingSomething())
+				{
+					IBlockState state = worldObj.getBlockState(this.pos);
+					worldObj.setBlockState(this.pos, state.withProperty(BlockCoinForge.PROPERTY_ACTIVE, true));
+				}
+				else
+				{
+					IBlockState state = worldObj.getBlockState(this.pos);
+					worldObj.setBlockState(this.pos, state.withProperty(BlockCoinForge.PROPERTY_ACTIVE, false));
+				}
+
+				changedForgingState = true;
+			}
 		}
 
 		if (changedForgingState)
@@ -111,7 +129,7 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 	private boolean canForge()
 	{
 		// if nothing in input
-		if(coinForgeStacks[0] == null)
+		if(coinForgeStacks[0] == null || coinForgeStacks[1] == null)
 		{
 			return false;
 		}
@@ -173,8 +191,9 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 		super.writeToNBT(compound);
 
 		compound.setInteger("ForgeBurnTime", this.forgeBurnTime);
-		compound.setInteger("CookTime", this.cookTime);
+		compound.setShort("CookTime", (short) this.cookTime);
 		compound.setInteger("TotalCookTime", this.totalCookTime);
+		compound.setInteger("CurrentItemBurnTime", this.currentItemBurnTime);
 
 		NBTTagList list = new NBTTagList();
 		for(int i = 0; i < this.getSizeInventory(); i++)
@@ -213,9 +232,9 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 		}
 
 		this.forgeBurnTime = compound.getInteger("ForgeBurnTime");
-		this.cookTime = compound.getInteger("CookTime");
+		this.cookTime = (int) compound.getShort("CookTime");
 		this.totalCookTime = compound.getInteger("TotalCookTime");
-		this.currentItemBurnTime = TileEntityFurnace.getItemBurnTime(this.coinForgeStacks[2]);
+		this.currentItemBurnTime = compound.getInteger("CurrentItemBurnTime");
 
 		if(compound.hasKey("CustomName"))
 			this.customName = compound.getString("CustomName");
@@ -382,5 +401,11 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 		{
 			return false;
 		}
+	}
+
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
+	{
+		return newState.getBlock() != oldState.getBlock();
 	}
 }
