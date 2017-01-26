@@ -44,7 +44,7 @@ public class BlockBase extends Block
 
 	public void registerForRendering()
 	{
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(this.getRegistryName(), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(this.getRegistryName(), "normal"));
 	}
 
 }

@@ -1,19 +1,13 @@
 {
     "forge_marker": 1,
-    "defaults":
-    {
-        "textures":
-        {
-            "all": "blockbank:blocks/counterfeit_detector"
+    "defaults": {
+        "textures": {
+            "particle": "blocks/iron_block"
         }
     },
     "variants":
     {
         "normal":
-        {
-            "model": "blockbank:counterfeit_detector"
-        },
-        "inventory":
         {
             "model": "blockbank:counterfeit_detector"
         },

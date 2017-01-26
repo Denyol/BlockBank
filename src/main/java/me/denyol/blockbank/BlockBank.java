@@ -1,13 +1,12 @@
 package me.denyol.blockbank;
 
+import me.denyol.blockbank.items.crafting.ModCraftingRecipes;
 import me.denyol.blockbank.tileentity.TileEntityCoinForge;
 import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
 import org.apache.logging.log4j.Logger;
 
 import me.denyol.blockbank.blocks.ModBlocks;
 import me.denyol.blockbank.core.BlockBankCreativeTab;
-import me.denyol.blockbank.crafting.ModCrafting;
-import me.denyol.blockbank.crafting.ModFurnaceCrafting;
 import me.denyol.blockbank.items.ModItems;
 import me.denyol.blockbank.network.ModGuiHandler;
 import me.denyol.blockbank.proxy.IBlockBankProxy;
@@ -27,7 +26,7 @@ public class BlockBank
 	
 	public static final String MOD_ID = "blockbank";
 	public static final String NAME = "Block Bank";
-	public static final String VERSION = "0.1.0-Alpha";
+	public static final String VERSION = "@VERSION@";
 	
 	@Instance(BlockBank.MOD_ID)
 	public static BlockBank instance;
@@ -55,8 +54,7 @@ public class BlockBank
 	@EventHandler
 	public void Init(FMLInitializationEvent event)
 	{
-		ModFurnaceCrafting.initRegister();
-		ModCrafting.initRegister();
+		ModCraftingRecipes.init();
 		
 		GameRegistry.registerTileEntity(TileEntityCounterfeitDetector.class, MOD_ID + "TileEntityCounterfeitDetector");
 		GameRegistry.registerTileEntity(TileEntityCoinForge.class, MOD_ID + "TileEntityCoinForge");

@@ -1,14 +1,12 @@
 package me.denyol.blockbank.gui.slots;
 
 import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
-import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.UsernameCache;
 
 import java.util.UUID;

@@ -1,6 +1,5 @@
 package me.denyol.blockbank.gui;
 
-import me.denyol.blockbank.BlockBank;
 import me.denyol.blockbank.gui.slots.SlotCoinForgeMaterialInput;
 import me.denyol.blockbank.gui.slots.SlotCoinForgeMoldSlot;
 import me.denyol.blockbank.gui.slots.SlotCoinForgeOutput;

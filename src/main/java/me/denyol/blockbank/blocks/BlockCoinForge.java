@@ -1,6 +1,5 @@
 package me.denyol.blockbank.blocks;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import me.denyol.blockbank.BlockBank;
 import me.denyol.blockbank.network.ModGuiHandler;
 import me.denyol.blockbank.tileentity.TileEntityCoinForge;

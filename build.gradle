@@ -10,18 +10,24 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
+ext.versionType = "Alpha"
 
-version = "0.1.0-Alpha"
-group= "me.denyol.blockbank" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = version_major + '.' + version_minor + '.' + version_patch
+if(project.hasProperty("versionType"))
+{
+    version = project.version + '-' + project.versionType
+}
+
+group = "me.denyol.blockbank"
 archivesBaseName = "BlockBank"
 
-sourceCompatibility = targetCompatibility = "1.6" // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
 compileJava {
-    sourceCompatibility = targetCompatibility = "1.6"
+    sourceCompatibility = targetCompatibility = "1.8"
 }
 
 minecraft {
-    version = "1.10.2-12.18.3.2221"
+    version = mcversion + "-" + forgeversion
     runDir = "run"
 
     // the mappings can be changed at any time, and must be in the following format.
@@ -29,16 +35,14 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20161111"
+    mappings = mcp_mappings
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+
+    replace '@VERSION@', project.version
 }
 
-dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-
+dependencies
+{
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
@@ -51,10 +55,22 @@ dependencies {
     //deobfCompile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
     //deobfProvided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 
+    // compile against the JEI API
+    deobfCompile "mezz.jei:jei_${mcversion}:${jei_version}:api"
+    // at runtime, use the full JEI jar
+    runtime "mezz.jei:jei_${mcversion}:${jei_version}"
+
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
+}
+
+repositories {
+  maven {
+    // location of the maven that hosts JEI files
+    url = "http://dvs1.progwml6.com/files/maven"
+  }
 }
 
 processResources

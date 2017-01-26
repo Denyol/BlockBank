@@ -1,8 +1,9 @@
 package me.denyol.blockbank.tileentity;
 
+import me.denyol.blockbank.api.recipe.RecipeCoinForge;
 import me.denyol.blockbank.blocks.BlockCoinForge;
 import me.denyol.blockbank.items.ModItems;
-import me.denyol.blockbank.items.crafting.CoinForgeRecipes;
+import me.denyol.blockbank.items.crafting.ModCraftingRecipes;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -128,17 +129,12 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 
 	private boolean canForge()
 	{
-		// if nothing in input
-		if(coinForgeStacks[0] == null || coinForgeStacks[1] == null)
-		{
+		// if nothing in inputs
+		if(coinForgeStacks[0] == null || coinForgeStacks[1] == null || coinForgeStacks[2] == null)
 			return false;
-		}
-		else
-		{
-			if(!isValidCoinMetal(coinForgeStacks[0])) // check if the input is valid
-				return false;
-			return coinForgeStacks[3] == null; // output is empty
-
+		else {
+			// check if the input is valid and the output is empty
+			return isValidCoinMaterial(coinForgeStacks[0]) && coinForgeStacks[3] == null && RecipeCoinForge.isValidMoldItem(coinForgeStacks[1].getItem());
 		}
 	}
 
@@ -149,7 +145,7 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 	{
 		if (this.canForge())
 		{
-			ItemStack itemStack = CoinForgeRecipes.getInstance().getForgeResult(this.coinForgeStacks[0]);
+			ItemStack itemStack = ModCraftingRecipes.goldCoin.getOutput().copy();
 
 			NBTTagCompound orig = this.coinForgeStacks[0].getTagCompound();
 
@@ -321,7 +317,7 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 			return true;
 		else if (index == 2 && TileEntityFurnace.isItemFuel(stack))
 			return true;
-		else return index == 0 && this.isValidCoinMetal(stack);
+		else return index == 0 && this.isValidCoinMaterial(stack);
 	}
 
 	public int getField(int id)
@@ -391,16 +387,9 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 		return (ITextComponent) (this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]));
 	}
 
-	public static boolean isValidCoinMetal(ItemStack stack)
+	public static boolean isValidCoinMaterial(ItemStack stack)
 	{
-		if(stack == null)
-			return false;
-		else if (CoinForgeRecipes.getInstance().isValidInput(stack.getItem()))
-			return true;
-		else
-		{
-			return false;
-		}
+		return stack != null && RecipeCoinForge.isValidInputMaterial(stack.getItem());
 	}
 
 	@Override
