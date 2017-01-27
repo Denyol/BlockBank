@@ -14,7 +14,7 @@ public class JeiPlugin extends BlankModPlugin
 	@Override
 	public void register(@Nonnull IModRegistry registry)
 	{
-		registry.addRecipeCategories(new ForgeRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new ForgeRecipeCategory(registry.getJeiHelpers().getGuiHelper(), registry.getIngredientRegistry()));
 
 		registry.addRecipeHandlers(new ForgeRecipeHandler());
 

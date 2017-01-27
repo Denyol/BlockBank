@@ -2,6 +2,7 @@ package me.denyol.blockbank.integration.jei;
 
 import me.denyol.blockbank.BlockBank;
 import me.denyol.blockbank.api.recipe.RecipeCoinForge;
+import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.recipe.IRecipeHandler;
 import mezz.jei.api.recipe.IRecipeWrapper;
 

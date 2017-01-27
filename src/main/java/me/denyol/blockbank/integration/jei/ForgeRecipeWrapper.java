@@ -1,8 +1,10 @@
 package me.denyol.blockbank.integration.jei;
 
 import me.denyol.blockbank.api.recipe.RecipeCoinForge;
+import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import scala.actors.threadpool.Arrays;
 

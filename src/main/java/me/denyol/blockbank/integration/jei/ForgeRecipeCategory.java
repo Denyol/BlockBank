@@ -1,10 +1,12 @@
 package me.denyol.blockbank.integration.jei;
 
+import jdk.nashorn.internal.ir.Block;
 import me.denyol.blockbank.BlockBank;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeCategory;
 import net.minecraft.client.Minecraft;
@@ -13,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Created by Daniel on 26/1/17.
@@ -21,12 +24,16 @@ public class ForgeRecipeCategory extends BlankRecipeCategory<ForgeRecipeWrapper>
 {
 
 	private IDrawable background;
+	//private IDrawable icon;
+	private final IIngredientRegistry ingredientRegistry;
 
 	public static final String ID = BlockBank.MOD_ID + ".forgeRecipeCategory";
 
-	public ForgeRecipeCategory(IGuiHelper helper)
+	public ForgeRecipeCategory(IGuiHelper helper, IIngredientRegistry ingredientRegistry)
 	{
 		background = helper.createDrawable(new ResourceLocation(BlockBank.MOD_ID, "textures/gui/CoinForgeContainer.png"), 35, 16, 106, 54);
+		//icon = helper.createDrawable(new ResourceLocation(BlockBank.MOD_ID, "textures/blocks/coin_forge_front_active.png"), 0 ,0 ,16, 16);
+		this.ingredientRegistry = ingredientRegistry;
 	}
 
 	@Nonnull
@@ -56,12 +63,20 @@ public class ForgeRecipeCategory extends BlankRecipeCategory<ForgeRecipeWrapper>
 		guiItemStacks.init(0, true, 0, 0);
 		guiItemStacks.init(1, true, 26, 18);
 		guiItemStacks.init(2, true, 0, 36);
-		guiItemStacks.init(3, false, 85, 18);
+		guiItemStacks.init(3, false, 84, 18);
 
 		guiItemStacks.set(0, ingredients.getInputs(ItemStack.class).get(0));
 		guiItemStacks.set(1, ingredients.getInputs(ItemStack.class).get(1));
-
+		guiItemStacks.set(2, ingredientRegistry.getFuels());
 		guiItemStacks.set(3, ingredients.getOutputs(ItemStack.class).get(0));
+	}
+
+	@Nullable
+	@Override
+	public IDrawable getIcon()
+	{
+		//return icon;
+		return null;
 	}
 
 	@Override
