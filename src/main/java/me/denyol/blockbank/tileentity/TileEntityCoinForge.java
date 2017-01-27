@@ -1,3 +1,21 @@
+/*
+ * <BlockBank Minecraft Forge economy mod>
+ *     Copyright (C) <2017>  <Daniel Tucker>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
 package me.denyol.blockbank.tileentity;
 
 import me.denyol.blockbank.api.recipe.RecipeCoinForge;
@@ -316,7 +334,7 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 			return true;
 		else if (index == 2 && TileEntityFurnace.isItemFuel(stack))
 			return true;
-		else return index == 0 && this.isValidCoinMaterial(stack);
+		else return index == 0 && isValidCoinMaterial(stack);
 	}
 
 	public int getField(int id)
@@ -383,7 +401,7 @@ public class TileEntityCoinForge extends TileEntity implements ITickable, IInven
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		return (ITextComponent) (this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]));
+		return this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName());
 	}
 
 	public static boolean isValidCoinMaterial(ItemStack stack)

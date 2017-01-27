@@ -1,10 +1,27 @@
+/*
+ * <BlockBank Minecraft Forge economy mod>
+ *     Copyright (C) <2017>  <Daniel Tucker>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
 package me.denyol.blockbank.blocks;
 
 import me.denyol.blockbank.BlockBank;
 import me.denyol.blockbank.network.ModGuiHandler;
 import me.denyol.blockbank.tileentity.TileEntityCoinForge;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -56,8 +73,8 @@ public class BlockCoinForge extends BlockBase implements ITileEntityProvider
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		EnumFacing facing = (EnumFacing) state.getValue(PROPERTY_FACING);
-		boolean active = (boolean) state.getValue(PROPERTY_ACTIVE);
+		EnumFacing facing = state.getValue(PROPERTY_FACING);
+		boolean active = state.getValue(PROPERTY_ACTIVE);
 
 		return facing.getHorizontalIndex() | ((active ? 1 : 0) << 2);
 	}
@@ -71,7 +88,7 @@ public class BlockCoinForge extends BlockBase implements ITileEntityProvider
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[] {PROPERTY_FACING, PROPERTY_ACTIVE});
+		return new BlockStateContainer(this, PROPERTY_FACING, PROPERTY_ACTIVE);
 	}
 
 	@Override
@@ -125,8 +142,8 @@ public class BlockCoinForge extends BlockBase implements ITileEntityProvider
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
 	{
 
-		boolean isActive = (boolean) stateIn.getValue(PROPERTY_ACTIVE);
-		EnumFacing facing = (EnumFacing) stateIn.getValue(PROPERTY_FACING);
+		boolean isActive = stateIn.getValue(PROPERTY_ACTIVE);
+		EnumFacing facing = stateIn.getValue(PROPERTY_FACING);
 
 		double d0 = (double)pos.getX() + 0.5D;
 		double d1 = (double)pos.getY() + rand.nextDouble() * 6.0D / 16.0D;

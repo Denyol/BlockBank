@@ -1,16 +1,30 @@
-package me.denyol.blockbank;
+/*
+ * <BlockBank Minecraft Forge economy mod>
+ *     Copyright (C) <2017>  <Daniel Tucker>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
 
-import me.denyol.blockbank.items.crafting.ModCraftingRecipes;
-import me.denyol.blockbank.tileentity.ModTileEntitys;
-import me.denyol.blockbank.tileentity.TileEntityCoinForge;
-import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
-import org.apache.logging.log4j.Logger;
+package me.denyol.blockbank;
 
 import me.denyol.blockbank.blocks.ModBlocks;
 import me.denyol.blockbank.core.BlockBankCreativeTab;
 import me.denyol.blockbank.items.ModItems;
+import me.denyol.blockbank.items.crafting.ModCraftingRecipes;
 import me.denyol.blockbank.network.ModGuiHandler;
 import me.denyol.blockbank.proxy.IBlockBankProxy;
+import me.denyol.blockbank.tileentity.ModTileEntitys;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -19,7 +33,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = BlockBank.MOD_ID, name = BlockBank.NAME, version = BlockBank.VERSION, acceptedMinecraftVersions = "[1.10.2]", dependencies = "after:JEI@[3.14.2.401,)")
 public class BlockBank
