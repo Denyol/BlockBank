@@ -1,0 +1,14 @@
+{
+    "forge_marker": 1,
+    "variants":
+    {
+        "normal": {"model": "blockbank:vault_casing"},
+        "inventory": {
+            "transform": "forge:default-block"
+        },
+        "multiblock=false,type=wall": {"model": "blockbank:vault_wall"},
+        "multiblock=true,type=wall": {"model": "blockbank:vault_wall"},
+        "multiblock=true,type=casing": {"model": "blockbank:vault_casing"},
+        "multiblock=false,type=casing": {"model": "blockbank:vault_casing"}
+    }
+}

@@ -7,6 +7,8 @@ itemGroup.tabBlockBank=Block Bank
 
 tile.counterfeit_detector.name=Counterfeit Detector
 tile.coin_forge.name=Coin Forge
+tile.vault_part.casing.name=Vault Casing
+tile.vault_part.wall.name=Vault Wall
 
 container.tile_entity_counterfeit_detector=Counterfeit Detector
 container.tile_entity_coin_forge=Coin Forge

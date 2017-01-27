@@ -1,6 +1,7 @@
 package me.denyol.blockbank;
 
 import me.denyol.blockbank.items.crafting.ModCraftingRecipes;
+import me.denyol.blockbank.tileentity.ModTileEntitys;
 import me.denyol.blockbank.tileentity.TileEntityCoinForge;
 import me.denyol.blockbank.tileentity.TileEntityCounterfeitDetector;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +21,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = BlockBank.MOD_ID, name = BlockBank.NAME, version = BlockBank.VERSION, acceptedMinecraftVersions = "[1.10.2]")
+@Mod(modid = BlockBank.MOD_ID, name = BlockBank.NAME, version = BlockBank.VERSION, acceptedMinecraftVersions = "[1.10.2]", dependencies = "after:JEI@[3.14.2.401,)")
 public class BlockBank
 {
 	
@@ -55,9 +56,8 @@ public class BlockBank
 	public void Init(FMLInitializationEvent event)
 	{
 		ModCraftingRecipes.init();
-		
-		GameRegistry.registerTileEntity(TileEntityCounterfeitDetector.class, MOD_ID + "TileEntityCounterfeitDetector");
-		GameRegistry.registerTileEntity(TileEntityCoinForge.class, MOD_ID + "TileEntityCoinForge");
+
+		ModTileEntitys.registerTileEntitys();
 		proxy.registerTESRs();
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(BlockBank.instance, new ModGuiHandler());

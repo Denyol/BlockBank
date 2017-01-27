@@ -27,7 +27,6 @@ import javax.annotation.Nullable;
  */
 public class TileEntityCoinForge extends TileEntity implements ITickable, IInventory
 {
-
 	private static final int[] SLOTS_TOP = new int[] {0};
 	private static final int[] SLOTS_BOTTOM = new int[] {3, 2};
 	private static final int[] SLOTS_SIDES = new int[] {1, 2};
