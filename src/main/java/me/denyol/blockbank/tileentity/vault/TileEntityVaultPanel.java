@@ -18,31 +18,74 @@
 
 package me.denyol.blockbank.tileentity.vault;
 
+import me.denyol.blockbank.api.BlockBankApi;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import javax.annotation.Nonnull;
-import java.util.UUID;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 
 /**
  * Created by Daniel on 28/1/17.
  */
 public class TileEntityVaultPanel extends VaultTileEntityBase
 {
-	private UUID owner;
+	public static short INVENTORY_SIZE = 90;
 
-	public void setOwner(@Nonnull UUID owner)
+	@CapabilityInject(IItemHandler.class)
+	public static Capability<IItemHandler> ITEMS_CAPABILITY;
+
+	private ItemStackHandler inventory = new ItemStackHandler(INVENTORY_SIZE)
 	{
-		this.owner = owner;
+		@Override
+		protected void onContentsChanged(int slot)
+		{
+			markDirty();
+		}
+
+		@Override
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
+		{
+			if(!BlockBankApi.hasMoneyType(stack.getItem()))
+				return stack;
+
+			return super.insertItem(slot, stack, simulate);
+		}
+	};
+
+	ItemStackHandler getInventory()
+	{
+		return inventory;
 	}
 
+	/* Capabilities */
+
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound)
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
 	{
-		NBTTagCompound tag = super.writeToNBT(compound);
+		if (capability == ITEMS_CAPABILITY) return true;
+		return super.hasCapability(capability, facing);
+	}
 
-		if(owner != null)
-			tag.setString("owner", owner.toString());
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
+	{
+		if (capability == ITEMS_CAPABILITY) return (T) inventory;
+		return super.getCapability(capability, facing);
+	}
 
+	/* NBT Data */
+
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	{
+		super.writeToNBT(tag);
+
+		tag.setTag("inventory", ITEMS_CAPABILITY.writeNBT(inventory, null));
 		return tag;
 	}
 
@@ -51,7 +94,9 @@ public class TileEntityVaultPanel extends VaultTileEntityBase
 	{
 		super.readFromNBT(tag);
 
-		if(tag.hasKey("owner"))
-			this.owner = UUID.fromString(tag.getString("owner"));
+		if (tag.getTagId("inventory") == Constants.NBT.TAG_LIST)
+		{
+			ITEMS_CAPABILITY.readNBT(inventory, null, tag);
+		}
 	}
 }

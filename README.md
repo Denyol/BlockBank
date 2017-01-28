@@ -1,5 +1,5 @@
 # BlockBank
-[![Build Status](https://travis-ci.org/dan14941/BlockBank.svg?branch=master)](https://travis-ci.org/dan14941/BlockBank)
+[![Build Status](https://travis-ci.org/Denyol/BlockBank.svg?branch=master)](https://travis-ci.org/Denyol/BlockBank)
 ## About
 An in game economy solution mod, coin forging, counterfeits, bank vaults!
 

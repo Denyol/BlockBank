@@ -18,24 +18,33 @@
 
 package me.denyol.blockbank.tileentity.vault;
 
+import me.denyol.blockbank.BlockBank;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Daniel on 27/1/17.
  */
-public class VaultTileEntityBase extends TileEntity
+public abstract class VaultTileEntityBase extends TileEntity implements ITickable
 {
-	boolean hasMaster = false;
-	boolean isMaster = false;
-	BlockPos masterPos;
+	private UUID owner;
+	private boolean hasMaster = false;
+	private boolean isMaster = false;
+	private boolean isFormed = false;
+	private VaultTileEntityBase master;
+	boolean firstRun = true;
 
 	public boolean hasMaster()
 	{
-		return hasMaster && masterPos != null;
+		return hasMaster && master != null;
 	}
 
 	public boolean isMaster()
@@ -43,25 +52,112 @@ public class VaultTileEntityBase extends TileEntity
 		return isMaster;
 	}
 
-	public BlockPos getMasterPos()
+	public VaultTileEntityBase getMaster()
 	{
-		return masterPos;
+		initializeMultiblockIfNecessary();
+		return master;
 	}
 
-	public void setHasMaster(boolean value)
+	public void setMaster(@Nonnull VaultTileEntityBase tileMaster)
 	{
-		hasMaster = value;
+		master = tileMaster;
+		hasMaster = true;
+
+		isMaster = master == this;
 	}
 
-	public void setIsMaster(boolean value)
+	public void setOwner(@Nonnull UUID owner)
 	{
-		isMaster = value;
+		this.owner = owner;
 	}
 
-	public void setMasterPos(@Nonnull BlockPos pos)
+	@Nullable
+	public UUID getOwner()
 	{
-		masterPos = pos;
+		if(owner == null || getMaster() == null)
+			return null;
+
+		return isMaster() ? owner : getMaster().owner;
 	}
+
+	private void initializeMultiblockIfNecessary()
+	{
+		if(!worldObj.isRemote)
+		{
+			BlockBank.logger.info("Attempting New Multiblock at: " + getPos().toString());
+			int xCoord = pos.getX();
+			int yCoord = pos.getY();
+			int zCoord = pos.getZ();
+
+			if (master == null || master.isInvalid())
+			{
+				List<VaultTileEntityBase> connectedBlock = new ArrayList<>();
+				int casingCount = 0;
+				int wallCount = 0;
+				int doorCount = 0;
+				int panelCount = 0;
+				// 4x4x4
+				for (int x = 0; x < 5; x++) {
+					for (int y = 0; y < 5; y++) {
+						for (int z = 0; z < 5; z++)
+						{
+							BlockPos position = new BlockPos(xCoord + x, yCoord + y, zCoord + z);
+							if(worldObj.isBlockLoaded(position))
+							{
+								TileEntity tileEntity = worldObj.getTileEntity(position);
+
+								if (tileEntity instanceof VaultTileEntityBase)
+								{
+									connectedBlock.add((VaultTileEntityBase) tileEntity);
+
+									if(tileEntity instanceof TileEntityVaultPanel)
+										panelCount++;
+									else if (tileEntity instanceof TileEntityVaultCasing)
+										casingCount++;
+									else if (tileEntity instanceof TileEntityVaultWall)
+										wallCount++;
+									else if (tileEntity instanceof TileEntityVaultDoor)
+										doorCount++;
+								}
+							}
+						}
+					}
+				}
+
+				if(doorCount == 3 && panelCount == 1 && casingCount == 32 && wallCount == 20)
+				{
+					for (VaultTileEntityBase te : connectedBlock)
+					{
+						te.setMaster(this);
+					}
+
+					BlockBank.logger.info("New Multiblock at: " + getPos().toString());
+				}
+
+				BlockBank.logger.info("Tried to make multiblock at: " + getPos().toString() + " Amounts: " + doorCount);
+			}
+		}
+	}
+
+	@Override
+	public void invalidate()
+	{
+		super.invalidate();
+	}
+
+	/* ITickable */
+
+	@Override
+	public void update()
+	{
+		if (firstRun)
+		{
+			initializeMultiblockIfNecessary();
+			firstRun = false;
+		}
+	}
+
+	/* NBT Saving */
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag)
@@ -69,12 +165,9 @@ public class VaultTileEntityBase extends TileEntity
 		super.writeToNBT(tag);
 		tag.setBoolean("hasMaster", hasMaster);
 		tag.setBoolean("isMaster", isMaster);
-		if(masterPos != null)
-		{
-			tag.setInteger("masterX", masterPos.getX());
-			tag.setInteger("masterY", masterPos.getY());
-			tag.setInteger("masterZ", masterPos.getZ());
-		}
+
+		if(owner != null)
+			tag.setString("owner", owner.toString());
 
 		return tag;
 	}
@@ -83,14 +176,11 @@ public class VaultTileEntityBase extends TileEntity
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		super.readFromNBT(tag);
-		if(tag.hasKey("masterX"))
-		{
-			int x = tag.getInteger("masterX");
-			int y = tag.getInteger("masterY");
-			int z = tag.getInteger("masterZ");
-			masterPos = new BlockPos(x, y, z);
-		}
+
 		hasMaster = tag.getBoolean("hasMaster");
 		isMaster = tag.getBoolean("isMaster");
+
+		if(tag.hasKey("owner"))
+			this.owner = UUID.fromString(tag.getString("owner"));
 	}
 }

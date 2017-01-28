@@ -21,8 +21,7 @@ package me.denyol.blockbank.blocks.vault;
 import me.denyol.blockbank.api.BlockBankApi;
 import me.denyol.blockbank.blocks.BlockBase;
 import me.denyol.blockbank.blocks.ModBlocks;
-import me.denyol.blockbank.tileentity.vault.TileEntityVaultCasing;
-import me.denyol.blockbank.tileentity.vault.TileEntityVaultPanel;
+import me.denyol.blockbank.tileentity.vault.*;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.properties.PropertyBool;
@@ -32,10 +31,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
@@ -45,6 +46,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -144,6 +146,10 @@ public class BlockVaultPart extends BlockBase implements ITileEntityProvider
 		{
 			case 0: // casing
 				return new TileEntityVaultCasing();
+			case 1:
+				return new TileEntityVaultWall();
+			case 2:
+				return new TileEntityVaultDoor();
 			case 3: // door
 				return new TileEntityVaultPanel();
 			default:
@@ -152,10 +158,22 @@ public class BlockVaultPart extends BlockBase implements ITileEntityProvider
 	}
 
 	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+	{
+		TileEntity te = worldIn.getTileEntity(pos);
+
+		if(te != null && te instanceof TileEntityVaultPanel)
+		{
+			TileEntityVaultPanel tileEntity = (TileEntityVaultPanel) te;
+		}
+
+		return false;
+	}
+
+	@Override
 	public boolean hasTileEntity(IBlockState state)
 	{
-		int meta = getMetaFromState(state);
-		return meta == 0 || meta == 3;
+		return true;
 	}
 
 	@Override
@@ -163,9 +181,9 @@ public class BlockVaultPart extends BlockBase implements ITileEntityProvider
 	{
 		TileEntity te = worldIn instanceof ChunkCache ? ((ChunkCache)worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
 
-		if(te instanceof TileEntityVaultCasing)
+		if(te != null && te instanceof VaultTileEntityBase)
 		{
-			TileEntityVaultCasing tileEntity = (TileEntityVaultCasing)te;
+			VaultTileEntityBase tileEntity = (VaultTileEntityBase)te;
 
 			if(tileEntity.hasMaster())
 				return state.withProperty(PROPERTY_MULTIBLOCK, true);

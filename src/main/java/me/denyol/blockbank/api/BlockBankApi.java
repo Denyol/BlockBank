@@ -19,8 +19,11 @@
 package me.denyol.blockbank.api;
 
 import me.denyol.blockbank.api.recipe.RecipeCoinForge;
+import me.denyol.blockbank.items.ModItems;
+import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +33,14 @@ import java.util.List;
 public final class BlockBankApi
 {
 
+	/** Types of money that can be put in a vault */
+	private static final List<Item> moneyTypes = new ArrayList<>();
 	public static final List<RecipeCoinForge> coinForgeRecipes = new ArrayList<>();
+
+	static
+	{
+		moneyTypes.add(ModItems.goldCoin);
+	}
 
 	public static boolean registerCoinForgeRecipe(RecipeCoinForge recipe)
 	{
@@ -41,6 +51,17 @@ public final class BlockBankApi
 		}
 
 		return false;
+	}
+
+	public static void addMoneyType(@Nonnull Item item)
+	{
+		if(!moneyTypes.contains(item))
+			moneyTypes.add(item);
+	}
+
+	public static boolean hasMoneyType(@Nonnull Item item)
+	{
+		return moneyTypes.contains(item);
 	}
 
 	public enum EnumVaultPartyType implements IStringSerializable

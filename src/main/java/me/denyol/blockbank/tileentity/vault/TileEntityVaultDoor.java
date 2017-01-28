@@ -22,7 +22,7 @@ package me.denyol.blockbank.tileentity.vault;
 /**
  * Created by Daniel on 27/1/17.
  */
-public class TileEntityVaultCasing extends VaultTileEntityBase
+public class TileEntityVaultDoor extends VaultTileEntityBase
 {
 
 }

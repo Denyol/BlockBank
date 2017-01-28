@@ -24,7 +24,7 @@ import me.denyol.blockbank.items.ModItems;
 import me.denyol.blockbank.items.crafting.ModCraftingRecipes;
 import me.denyol.blockbank.network.ModGuiHandler;
 import me.denyol.blockbank.proxy.IBlockBankProxy;
-import me.denyol.blockbank.tileentity.ModTileEntitys;
+import me.denyol.blockbank.tileentity.ModTileEntities;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -71,7 +71,7 @@ public class BlockBank
 	{
 		ModCraftingRecipes.init();
 
-		ModTileEntitys.registerTileEntitys();
+		ModTileEntities.registerTileEntities();
 		proxy.registerTESRs();
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(BlockBank.instance, new ModGuiHandler());
