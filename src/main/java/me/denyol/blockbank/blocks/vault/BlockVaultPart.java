@@ -22,6 +22,7 @@ import me.denyol.blockbank.api.BlockBankApi;
 import me.denyol.blockbank.blocks.BlockBase;
 import me.denyol.blockbank.blocks.ModBlocks;
 import me.denyol.blockbank.tileentity.vault.TileEntityVaultCasing;
+import me.denyol.blockbank.tileentity.vault.TileEntityVaultPanel;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.properties.PropertyBool;
@@ -125,17 +126,36 @@ public class BlockVaultPart extends BlockBase implements ITileEntityProvider
 	}
 
 	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	{
+		TileEntity te = worldIn.getTileEntity(pos);
+		if(te instanceof TileEntityVaultPanel)
+		{
+			TileEntityVaultPanel tileEntity = (TileEntityVaultPanel) te;
+
+			tileEntity.setOwner(placer.getUniqueID());
+		}
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
 		switch (meta)
 		{
-			case 0:
+			case 0: // casing
 				return new TileEntityVaultCasing();
-			case 1:
-				return null;
+			case 3: // door
+				return new TileEntityVaultPanel();
 			default:
 				return null;
 		}
+	}
+
+	@Override
+	public boolean hasTileEntity(IBlockState state)
+	{
+		int meta = getMetaFromState(state);
+		return meta == 0 || meta == 3;
 	}
 
 	@Override

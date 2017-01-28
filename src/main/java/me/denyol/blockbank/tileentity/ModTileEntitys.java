@@ -20,6 +20,7 @@ package me.denyol.blockbank.tileentity;
 
 import me.denyol.blockbank.BlockBank;
 import me.denyol.blockbank.tileentity.vault.TileEntityVaultCasing;
+import me.denyol.blockbank.tileentity.vault.TileEntityVaultPanel;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -32,5 +33,6 @@ public class ModTileEntitys
 		GameRegistry.registerTileEntity(TileEntityCounterfeitDetector.class, BlockBank.MOD_ID + "TileEntityCounterfeitDetector");
 		GameRegistry.registerTileEntity(TileEntityCoinForge.class, BlockBank.MOD_ID + "TileEntityCoinForge");
 		GameRegistry.registerTileEntity(TileEntityVaultCasing.class, BlockBank.MOD_ID + "TileEntityVaultCasing");
+		GameRegistry.registerTileEntity(TileEntityVaultPanel.class, BlockBank.MOD_ID + "TileEntityVaultPanel");
 	}
 }

@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "down": "blockbank:blocks/vault_door",
+    "up": "blockbank:blocks/vault_door",
+    "all": "blockbank:blocks/vault_access_panel"
+  }
+}

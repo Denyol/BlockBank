@@ -16,38 +16,42 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package me.denyol.blockbank.blocks.vault;
+package me.denyol.blockbank.tileentity.vault;
 
-import me.denyol.blockbank.blocks.BlockBase;
-import me.denyol.blockbank.blocks.ModBlocks;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.EnumPushReaction;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.nbt.NBTTagCompound;
+
+import javax.annotation.Nonnull;
+import java.util.UUID;
 
 /**
- * Created by Daniel on 27/1/17.
+ * Created by Daniel on 28/1/17.
  */
-public class BlockSecureCasing extends BlockBase
+public class TileEntityVaultPanel extends VaultTileEntityBase
 {
-	public BlockSecureCasing(ModBlocks.Blocks block)
+	private UUID owner;
+
+	public void setOwner(@Nonnull UUID owner)
 	{
-		super(block);
-		setHarvestLevel("pickaxe", 3);
-		setSoundType(SoundType.STONE);
-		setHardness(45.0F);
-		setResistance(2000.0F);
+		this.owner = owner;
 	}
 
 	@Override
-	public EnumPushReaction getMobilityFlag(IBlockState state)
+	public NBTTagCompound writeToNBT(NBTTagCompound compound)
 	{
-		return EnumPushReaction.BLOCK;
+		NBTTagCompound tag = super.writeToNBT(compound);
+
+		if(owner != null)
+			tag.setString("owner", owner.toString());
+
+		return tag;
 	}
 
 	@Override
-	public MapColor getMapColor(IBlockState state)
+	public void readFromNBT(NBTTagCompound tag)
 	{
-		return MapColor.OBSIDIAN;
+		super.readFromNBT(tag);
+
+		if(tag.hasKey("owner"))
+			this.owner = UUID.fromString(tag.getString("owner"));
 	}
 }

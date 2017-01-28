@@ -46,7 +46,9 @@ public final class BlockBankApi
 	public enum EnumVaultPartyType implements IStringSerializable
 	{
 		CASING(0, "casing"),
-		WALL(1, "wall");
+		WALL(1, "wall"),
+		DOOR(2, "door"),
+		ACCESS_PANEL(3, "access_panel");
 
 		public int getMetadata()
 		{
