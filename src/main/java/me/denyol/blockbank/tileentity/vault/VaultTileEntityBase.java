@@ -19,10 +19,14 @@
 package me.denyol.blockbank.tileentity.vault;
 
 import me.denyol.blockbank.BlockBank;
+import me.denyol.blockbank.blocks.vault.BlockVaultPart;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,7 +42,6 @@ public abstract class VaultTileEntityBase extends TileEntity implements ITickabl
 	private UUID owner;
 	private boolean hasMaster = false;
 	private boolean isMaster = false;
-	private boolean isFormed = false;
 	private VaultTileEntityBase master;
 	boolean firstRun = true;
 
@@ -54,12 +57,21 @@ public abstract class VaultTileEntityBase extends TileEntity implements ITickabl
 
 	public VaultTileEntityBase getMaster()
 	{
-		initializeMultiblockIfNecessary();
+		checkMultiBlock();
 		return master;
 	}
 
-	public void setMaster(@Nonnull VaultTileEntityBase tileMaster)
+	public void setMaster(VaultTileEntityBase tileMaster)
 	{
+		if (tileMaster == null)
+		{
+			hasMaster = false;
+			master = null;
+			isMaster = false;
+
+			return;
+		}
+
 		master = tileMaster;
 		hasMaster = true;
 
@@ -80,62 +92,112 @@ public abstract class VaultTileEntityBase extends TileEntity implements ITickabl
 		return isMaster() ? owner : getMaster().owner;
 	}
 
-	private void initializeMultiblockIfNecessary()
+	private void checkMultiBlock()
 	{
 		if(!worldObj.isRemote)
 		{
-			BlockBank.logger.info("Attempting New Multiblock at: " + getPos().toString());
-			int xCoord = pos.getX();
-			int yCoord = pos.getY();
-			int zCoord = pos.getZ();
-
 			if (master == null || master.isInvalid())
 			{
-				List<VaultTileEntityBase> connectedBlock = new ArrayList<>();
+				List<VaultTileEntityBase> connectedBlocks;
 				int casingCount = 0;
 				int wallCount = 0;
 				int doorCount = 0;
 				int panelCount = 0;
-				// 4x4x4
-				for (int x = 0; x < 5; x++) {
-					for (int y = 0; y < 5; y++) {
-						for (int z = 0; z < 5; z++)
-						{
-							BlockPos position = new BlockPos(xCoord + x, yCoord + y, zCoord + z);
-							if(worldObj.isBlockLoaded(position))
-							{
-								TileEntity tileEntity = worldObj.getTileEntity(position);
 
-								if (tileEntity instanceof VaultTileEntityBase)
-								{
-									connectedBlock.add((VaultTileEntityBase) tileEntity);
+				connectedBlocks = searchBlocks();
 
-									if(tileEntity instanceof TileEntityVaultPanel)
-										panelCount++;
-									else if (tileEntity instanceof TileEntityVaultCasing)
-										casingCount++;
-									else if (tileEntity instanceof TileEntityVaultWall)
-										wallCount++;
-									else if (tileEntity instanceof TileEntityVaultDoor)
-										doorCount++;
-								}
-							}
-						}
-					}
+				for(VaultTileEntityBase te : connectedBlocks)
+				{
+					if(te instanceof TileEntityVaultDoor)
+						doorCount++;
+					else if(te instanceof TileEntityVaultPanel)
+						panelCount++;
+					else if (te instanceof TileEntityVaultWall)
+						wallCount++;
+					else if (te instanceof TileEntityVaultCasing)
+						casingCount++;
 				}
 
 				if(doorCount == 3 && panelCount == 1 && casingCount == 32 && wallCount == 20)
 				{
-					for (VaultTileEntityBase te : connectedBlock)
+					for (VaultTileEntityBase te : connectedBlocks)
 					{
 						te.setMaster(this);
+						updateBlock(true);
+						te.markDirty();
 					}
 
-					BlockBank.logger.info("New Multiblock at: " + getPos().toString());
+					BlockBank.logger.info("New vault at: " + getPos().toString());
 				}
-
-				BlockBank.logger.info("Tried to make multiblock at: " + getPos().toString() + " Amounts: " + doorCount);
 			}
+		}
+	}
+
+	public void blockRemoved()
+	{
+		if(isMaster())
+		{
+			BlockBank.logger.info("Vault at: " + getPos() + " is no longer valid.");
+
+			List<VaultTileEntityBase> connectedBlocks;
+
+			connectedBlocks = searchBlocks();
+
+			for(VaultTileEntityBase te : connectedBlocks)
+			{
+				te.setMaster(null);
+				updateBlock(false);
+				te.markDirty();
+			}
+
+		}
+		else if(hasMaster())
+			getMaster().blockRemoved();
+	}
+
+	/**
+	 * Searches blocks in a 4x4x4 radius in a positive x and y fashion, and adds all valid vault blocks found to a list.
+	 * @return list of VaultTileEntityBase
+	 */
+	private List<VaultTileEntityBase> searchBlocks()
+	{
+		if(!worldObj.isRemote)
+		{
+			int xCoord = pos.getX();
+			int yCoord = pos.getY();
+			int zCoord = pos.getZ();
+
+			List<VaultTileEntityBase> result = new ArrayList<>();
+
+			for (int x = 0; x < 5; x++) {
+				for (int y = 0; y < 5; y++) {
+					for (int z = 0; z < 5; z++)
+					{
+						BlockPos position = new BlockPos(xCoord + x, yCoord + y, zCoord + z);
+						if(worldObj.isBlockLoaded(position))
+						{
+							TileEntity tileEntity = worldObj.getTileEntity(position);
+
+							if (tileEntity instanceof VaultTileEntityBase)
+							{
+								result.add((VaultTileEntityBase) tileEntity);
+							}
+						}
+					}
+				}
+			}
+
+			return result;
+		}
+
+		return new ArrayList<VaultTileEntityBase>();
+	}
+
+	private void updateBlock(boolean isMultiBlock)
+	{
+		if(!worldObj.isRemote)
+		{
+			worldObj.getBlockState(getPos()).withProperty(BlockVaultPart.PROPERTY_MULTIBLOCK, isMultiBlock);
 		}
 	}
 
@@ -145,6 +207,27 @@ public abstract class VaultTileEntityBase extends TileEntity implements ITickabl
 		super.invalidate();
 	}
 
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
+	{
+		return newState.getBlock() != oldState.getBlock();
+	}
+
+	public void notifyNeighbours()
+	{
+		if(!worldObj.isRemote)
+		{
+			checkMultiBlock();
+
+			for(EnumFacing dir : BlockVaultPart.SIDES)
+			{
+				TileEntity te = worldObj.getTileEntity(pos.offset(dir));
+				if(te != null && te instanceof VaultTileEntityBase)
+					((VaultTileEntityBase) te).notifyNeighbours();
+			}
+		}
+	}
+
 	/* ITickable */
 
 	@Override
@@ -152,7 +235,7 @@ public abstract class VaultTileEntityBase extends TileEntity implements ITickabl
 	{
 		if (firstRun)
 		{
-			initializeMultiblockIfNecessary();
+			checkMultiBlock();
 			firstRun = false;
 		}
 	}
@@ -163,8 +246,6 @@ public abstract class VaultTileEntityBase extends TileEntity implements ITickabl
 	public NBTTagCompound writeToNBT(NBTTagCompound tag)
 	{
 		super.writeToNBT(tag);
-		tag.setBoolean("hasMaster", hasMaster);
-		tag.setBoolean("isMaster", isMaster);
 
 		if(owner != null)
 			tag.setString("owner", owner.toString());
@@ -176,9 +257,6 @@ public abstract class VaultTileEntityBase extends TileEntity implements ITickabl
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		super.readFromNBT(tag);
-
-		hasMaster = tag.getBoolean("hasMaster");
-		isMaster = tag.getBoolean("isMaster");
 
 		if(tag.hasKey("owner"))
 			this.owner = UUID.fromString(tag.getString("owner"));

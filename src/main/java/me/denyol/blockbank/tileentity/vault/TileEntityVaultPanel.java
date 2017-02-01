@@ -24,7 +24,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -36,7 +35,7 @@ public class TileEntityVaultPanel extends VaultTileEntityBase
 	public static short INVENTORY_SIZE = 90;
 
 	@CapabilityInject(IItemHandler.class)
-	public static Capability<IItemHandler> ITEMS_CAPABILITY;
+	public static Capability<IItemHandler> ITEMS_CAPABILITY = null;
 
 	private ItemStackHandler inventory = new ItemStackHandler(INVENTORY_SIZE)
 	{
@@ -66,8 +65,7 @@ public class TileEntityVaultPanel extends VaultTileEntityBase
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
 	{
-		if (capability == ITEMS_CAPABILITY) return true;
-		return super.hasCapability(capability, facing);
+		return capability == ITEMS_CAPABILITY || super.hasCapability(capability, facing);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -85,7 +83,7 @@ public class TileEntityVaultPanel extends VaultTileEntityBase
 	{
 		super.writeToNBT(tag);
 
-		tag.setTag("inventory", ITEMS_CAPABILITY.writeNBT(inventory, null));
+		tag.setTag("inventory", inventory.serializeNBT());
 		return tag;
 	}
 
@@ -94,9 +92,9 @@ public class TileEntityVaultPanel extends VaultTileEntityBase
 	{
 		super.readFromNBT(tag);
 
-		if (tag.getTagId("inventory") == Constants.NBT.TAG_LIST)
+		if (tag.hasKey("inventory"))
 		{
-			ITEMS_CAPABILITY.readNBT(inventory, null, tag);
+			inventory.deserializeNBT(tag.getCompoundTag("inventory"));
 		}
 	}
 }

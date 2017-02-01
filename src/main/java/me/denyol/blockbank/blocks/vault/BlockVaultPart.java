@@ -22,6 +22,7 @@ import me.denyol.blockbank.api.BlockBankApi;
 import me.denyol.blockbank.blocks.BlockBase;
 import me.denyol.blockbank.blocks.ModBlocks;
 import me.denyol.blockbank.tileentity.vault.*;
+import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.properties.PropertyBool;
@@ -38,10 +39,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -56,6 +55,8 @@ public class BlockVaultPart extends BlockBase implements ITileEntityProvider
 {
 	public static final PropertyEnum PROPERTY_TYPE = PropertyEnum.create("type", BlockBankApi.EnumVaultPartyType.class);
 	public static final PropertyBool PROPERTY_MULTIBLOCK = PropertyBool.create("multiblock");
+
+	public static final EnumFacing[] SIDES = {EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.WEST};
 
 	public BlockVaultPart(ModBlocks.Blocks block)
 	{
@@ -179,16 +180,32 @@ public class BlockVaultPart extends BlockBase implements ITileEntityProvider
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
-		TileEntity te = worldIn instanceof ChunkCache ? ((ChunkCache)worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
+		return state.withProperty(PROPERTY_MULTIBLOCK, false);
+	}
+
+	@Override
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn)
+	{
+		TileEntity te = worldIn.getTileEntity(pos);
 
 		if(te != null && te instanceof VaultTileEntityBase)
 		{
-			VaultTileEntityBase tileEntity = (VaultTileEntityBase)te;
-
-			if(tileEntity.hasMaster())
-				return state.withProperty(PROPERTY_MULTIBLOCK, true);
+			((VaultTileEntityBase) te).notifyNeighbours();
 		}
 
-		return state.withProperty(PROPERTY_MULTIBLOCK, false);
+		super.neighborChanged(state, worldIn, pos, blockIn);
+	}
+
+	@Override
+	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
+	{
+		super.onBlockHarvested(worldIn, pos, state, player);
+
+		TileEntity te = worldIn.getTileEntity(pos);
+
+		if(te != null && te instanceof VaultTileEntityBase)
+		{
+			((VaultTileEntityBase) te).blockRemoved();
+		}
 	}
 }

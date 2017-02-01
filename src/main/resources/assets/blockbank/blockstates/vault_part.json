@@ -12,7 +12,7 @@
         "multiblock=false,type=casing": {"model": "blockbank:vault_casing"},
         "multiblock=true,type=door": {"model": "blockbank:vault_door"},
         "multiblock=false,type=door": {"model": "blockbank:vault_door"},
-        "multiblock=true,type=access_panel": {"model": "blockbank:vault_access_panel"},
+        "multiblock=true,type=access_panel": {"model": "blockbank:vault_door"},
         "multiblock=false,type=access_panel": {"model": "blockbank:vault_access_panel"}
     }
 }
