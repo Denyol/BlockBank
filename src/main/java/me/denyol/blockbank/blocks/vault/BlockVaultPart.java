@@ -196,10 +196,24 @@ public class BlockVaultPart extends BlockBase implements ITileEntityProvider
 		super.neighborChanged(state, worldIn, pos, blockIn);
 	}
 
+	/*
 	@Override
 	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
 	{
 		super.onBlockHarvested(worldIn, pos, state, player);
+
+		TileEntity te = worldIn.getTileEntity(pos);
+
+		if(te != null && te instanceof VaultTileEntityBase)
+		{
+			((VaultTileEntityBase) te).blockRemoved();
+		}
+	}*/
+
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	{
+		super.breakBlock(worldIn, pos, state);
 
 		TileEntity te = worldIn.getTileEntity(pos);
 

@@ -35,12 +35,15 @@ public class ModItems
 	
 	public static Item unfiredCoinMold;
 	public static Item coinMold;
+
+	public static Item wallet;
 	
 	public static void loadItems()
 	{
 		goldCoin = new ItemGoldCoin(Items.GOLD_COIN);
 		unfiredCoinMold = new ItemUnfiredCoinMold(Items.UNFIRED_COIN_MOLD);
 		coinMold = new ItemCoinMold(Items.COIN_MOLD);
+		wallet = new ItemWallet(Items.WALLET);
 	}
 	
 	public static void registerForRendering()
@@ -48,6 +51,7 @@ public class ModItems
 		registerRender(goldCoin);
 		registerRender(unfiredCoinMold);
 		registerRender(coinMold);
+		registerRender(wallet);
 	}
 	
 	private static void registerRender(Item item)
@@ -60,7 +64,8 @@ public class ModItems
 		GOLD_COIN("gold_coin", "gold_coin"),
 		IRON_COIN("iron_coin", "iron_coin"),
 		UNFIRED_COIN_MOLD("unfired_coin_mold", "unfired_coin_mold"),
-		COIN_MOLD("coin_mold", "coin_mold");
+		COIN_MOLD("coin_mold", "coin_mold"),
+		WALLET("wallet", "wallet");
 		
 		private String unlocalizedName;
 		private String registryName; // should be unique

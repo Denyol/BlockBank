@@ -2,6 +2,7 @@ item.gold_coin.name=Gold Coin
 item.iron_coin.name=Iron Coin
 item.unfired_coin_mold.name=Unfired Coin Mold
 item.coin_mold.name=Coin Mold
+item.wallet.name=Wallet
 
 itemGroup.tabBlockBank=Block Bank
 
