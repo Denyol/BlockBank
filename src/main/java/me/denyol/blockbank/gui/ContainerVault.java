@@ -20,12 +20,16 @@ package me.denyol.blockbank.gui;
 
 import me.denyol.blockbank.tileentity.vault.TileEntityVaultPanel;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
+
+import java.util.List;
 
 /**
  * Created by Daniel on 6/2/17.
@@ -34,13 +38,14 @@ public class ContainerVault extends Container //TODO finish this
 {
 
 	private final TileEntityVaultPanel tileEntity;
+	private final IItemHandler inv;
 	private int rows = 0;
 
 	public ContainerVault(IInventory playerInv, TileEntityVaultPanel te)
 	{
 		tileEntity = te;
 
-		IItemHandler inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
 		if(inv != null && inv instanceof ItemStackHandler)
 		{
@@ -67,8 +72,17 @@ public class ContainerVault extends Container //TODO finish this
 	/**
 	 * Updates the gui slots ItemStack's based on scroll position.
 	 */
-	/*public void scrollTo(float position, IItemHandler inv)
+	public void scrollTo(int row)
 	{
+
+		for (Slot slot : (List<Slot>) inventorySlots)
+		{
+			if (!(slot.inventory instanceof InventoryPlayer)) {
+				slot.xDisplayPosition = -99999; // TODO FINISH https://github.com/Questology/Questology/blob/master/src/main/java/demonmodders/questology/container/ContainerSummoner.java
+			}
+		}
+
+		/*
 		int i = (this.itemList.size() + 9 - 1) / 9 - 6;
 		int j = (int)((double)(position * (float)i) + 0.5D);
 
@@ -92,6 +106,6 @@ public class ContainerVault extends Container //TODO finish this
 					GuiContainerCreative.basicInventory.setInventorySlotContents(col + row * 9, null);
 				}
 			}
-		}
-	}*/
+		}*/
+	}
 }
