@@ -22,6 +22,10 @@ import me.denyol.blockbank.tileentity.vault.TileEntityVaultPanel;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.SlotItemHandler;
 
 /**
  * Created by Daniel on 6/2/17.
@@ -30,10 +34,27 @@ public class ContainerVault extends Container //TODO finish this
 {
 
 	private final TileEntityVaultPanel tileEntity;
+	private int rows = 0;
 
 	public ContainerVault(IInventory playerInv, TileEntityVaultPanel te)
 	{
 		tileEntity = te;
+
+		IItemHandler inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+
+		if(inv != null && inv instanceof ItemStackHandler)
+		{
+			rows = ((ItemStackHandler) inv).getSlots() / 9;
+			for (int row = 0; row < rows; row++)
+			{
+				for (int col = 0; col < 9; col++)
+				{
+					addSlotToContainer(new SlotItemHandler(inv, col + row * 9, 8 + col * 18, 18 + row * 18));
+				}
+			}
+		}
+
+		//scrollTo(0.0F);
 	}
 
 	@Override
@@ -41,4 +62,36 @@ public class ContainerVault extends Container //TODO finish this
 	{
 		return player.getDistanceSq(tileEntity.getPos().add(0.5, 0.5, 0.5)) <= 64;
 	}
+
+
+	/**
+	 * Updates the gui slots ItemStack's based on scroll position.
+	 */
+	/*public void scrollTo(float position, IItemHandler inv)
+	{
+		int i = (this.itemList.size() + 9 - 1) / 9 - 6;
+		int j = (int)((double)(position * (float)i) + 0.5D);
+
+		if (j < 0)
+		{
+			j = 0;
+		}
+
+		for (int row = 0; row < 6; ++row) // 6 for number of visible rows
+		{
+			for (int col = 0; col < 9; ++col)
+			{
+				int i1 = col + (row + j) * 9;
+
+				if (i1 >= 0 && i1 < this.itemList.size())
+				{
+					GuiContainerCreative.basicInventory.setInventorySlotContents(col + row * 9, (ItemStack)this.itemList.get(i1));
+				}
+				else
+				{
+					GuiContainerCreative.basicInventory.setInventorySlotContents(col + row * 9, null);
+				}
+			}
+		}
+	}*/
 }

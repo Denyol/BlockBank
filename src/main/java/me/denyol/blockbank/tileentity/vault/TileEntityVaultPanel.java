@@ -55,11 +55,6 @@ public class TileEntityVaultPanel extends VaultTileEntityBase
 		}
 	};
 
-	ItemStackHandler getInventory()
-	{
-		return inventory;
-	}
-
 	/* Capabilities */
 
 	@Override
