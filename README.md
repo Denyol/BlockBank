@@ -1,4 +1,6 @@
 # BlockBank
+
+[![Join the chat at https://gitter.im/BlockBank/Lobby](https://badges.gitter.im/BlockBank/Lobby.svg)](https://gitter.im/BlockBank/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/Denyol/BlockBank.svg?branch=master)](https://travis-ci.org/Denyol/BlockBank)
 ## About
 An in game economy solution mod, coin forging, counterfeits, bank vaults!
